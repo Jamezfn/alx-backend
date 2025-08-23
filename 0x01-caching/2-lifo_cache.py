@@ -1,35 +1,34 @@
-#!/usr/bin/env python3
-"""Last-In First-Out caching module.
+#!/usr/bin/env python
 """
-from collections import OrderedDict
-
+LIFO Caching
+"""
 from base_caching import BaseCaching
-
-
 class LIFOCache(BaseCaching):
-    """Represents an object that allows storing and
-    retrieving items from a dictionary with a LIFO
-    removal mechanism when the limit is reached.
-    """
+    """ LIFOCache defines a LIFO caching system """
     def __init__(self):
-        """Initializes the cache.
-        """
+        """ Initialise """
         super().__init__()
-        self.cache_data = OrderedDict()
+        self.queue = []
 
     def put(self, key, item):
-        """Adds an item in the cache.
-        """
+        """ Add an item in the cache using LIFO """
         if key is None or item is None:
             return
-        if key not in self.cache_data:
-            if len(self.cache_data) + 1 > BaseCaching.MAX_ITEMS:
-                last_key, _ = self.cache_data.popitem(True)
-                print("DISCARD:", last_key)
+
+        if key in self.cache_data:
+            self.cache_data[key] = item
+            return
+
+        if len(self.cache_data) >= BaseCaching.MAX_ITEMS:
+            newest_key = self.queue.pop()
+            del self.cache_data[newest_key]
+            print(f"DISCARD: {newest_key}")
+
         self.cache_data[key] = item
-        self.cache_data.move_to_end(key, last=True)
+        self.queue.append(key)
 
     def get(self, key):
-        """Retrieves an item by key.
-        """
+        """Get an item from cache"""
+        if key is None:
+            return None
         return self.cache_data.get(key, None)
