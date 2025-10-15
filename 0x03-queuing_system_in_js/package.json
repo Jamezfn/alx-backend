@@ -1,0 +1,23 @@
+{
+  "name": "0x03-queuing_system_in_js",
+  "version": "1.0.0",
+  "description": "Queuing System in JS",
+  "main": "0-redis_client.js",
+  "dependencies": {
+    "cluster-key-slot": "^1.1.2",
+    "redis": "^5.8.3"
+  },
+  "scripts": {
+    "test": "mocha",
+    "dev": "nodemon --exec babel-node --presets @babel/preset-env"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.28.4",
+    "@babel/node": "^7.28.0",
+    "@babel/preset-env": "^7.28.3",
+    "nodemon": "^3.1.10"
+  }
+}
