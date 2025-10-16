@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Queuing System in JS",
   "main": "0-redis_client.js",
+  "type": "module",
   "dependencies": {
     "cluster-key-slot": "^1.1.2",
     "redis": "^5.8.3"
