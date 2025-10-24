@@ -9,7 +9,7 @@
     "redis": "^5.8.3"
   },
   "scripts": {
-    "test": "mocha",
+    "test": "mocha *.test.js",
     "dev": "nodemon --exec babel-node --presets @babel/preset-env"
   },
   "keywords": [],
@@ -19,7 +19,9 @@
     "@babel/core": "^7.28.4",
     "@babel/node": "^7.28.0",
     "@babel/preset-env": "^7.28.3",
+    "chai": "^6.2.0",
     "kue": "^0.11.6",
+    "mocha": "^11.7.4",
     "nodemon": "^3.1.10"
   }
 }
