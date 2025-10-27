@@ -49,7 +49,46 @@ app.get('/list_products', (req, res) => {
 	return res.json(out);
 });
 
-app.get('/list_products/:itemId', async () => {
+app.get('/list_products/:itemId', async (req, res) => {
+	const itemId = parseInt(req.params.itemId, 10);
+	const item = getItemById(itemId);
+
+	if (!item) {
+		return res.json({ status: 'Product not found' });
+	}
+
+	const currentStock = await getCurrentReservedStockById(itemId);
+	const stock = currentStock !== null ? currentStock : item.stock;
+
+	res.json({
+		itemId: item.id,
+		itemName: item.name,
+		price: item.price,
+		initialAvailableQuantity: item.stock,
+		currentQuantity: stock
+	});
+});
+
+app.get('/reserve_product/:itemId', async (req, res) => {
+	const itemId = parseInt(req.params.itemId, 10);
+	const item = getItemById(itemId);
+
+	if (!item) {
+                return res.json({ status: 'Product not found' });
+        }
+
+	let currentStock = await getCurrentReservedStockById(itemId);
+        if (currentStock === null) {
+		currentStock = item.stock;
+		await reserveStockById(itemId, currentStock);
+	}
+
+	if (currentStock === 0) {
+		return res.json({ status: 'Not enough stock available', itemId });
+	}
+
+	await reserveStockById(itemId, currentStock - 1);
+	res.json({ status: 'Reservation confirmed', itemId });
 });
 
 (async () => {
